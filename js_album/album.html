@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사계절 꽃 앨범</title>
+    <link rel="stylesheet" href="album.css">
+    <script src="album.js" defer></script>
+</head>
+<body>
+    <!-- 메인 메뉴 페이지 (처음 보여지는 화면) -->
+    <div id="main"> <!-- 아이디가 'main'인 div: 메인 메뉴 영역 -->
+        <h1>사계절 꽃 앨범</h1> <!-- 큰 제목 -->
+
+        <!-- 각 계절 버튼: 클릭 시 자바스크립트 함수 showSeason('계절') 실행 -->
+        <button class="button" onclick="showSeason('spring')">봄</button>
+        <button class="button" onclick="showSeason('summer')">여름</button>
+        <button class="button" onclick="showSeason('autumn')">가을</button>
+        <button class="button" onclick="showSeason('winter')">겨울</button>
+    </div>
+
+    <!-- 봄 페이지 -->
+    <div id="spring" class="container spring"> <!-- 봄 사진을 담는 공간 -->
+        <h1>봄</h1> <!-- 봄 페이지의 제목 -->
+
+        <div id="spring-flower-page"></div> <!-- 꽃 사진들이 자바스크립트로 추가되는 곳 -->
+
+        <!-- 페이지 넘김 버튼 (이전/다음) -->
+        <div class="page-buttons">
+            <button class="button" onclick="prevPage('spring')">이전</button>
+            <button class="button" onclick="nextPage('spring')">다음</button>
+        </div>
+
+        <!-- 메인 화면으로 돌아가는 버튼 -->
+        <button class="button" onclick="showMain()">메인 페이지로</button>
+    </div>
+
+    <!-- 여름 페이지 -->
+    <div id="summer" class="container summer">
+        <h1>여름</h1>
+        <div id="summer-flower-page"></div> <!-- 여름 꽃들이 표시될 곳 -->
+
+        <div class="page-buttons">
+            <button class="button" onclick="prevPage('summer')">이전</button>
+            <button class="button" onclick="nextPage('summer')">다음</button>
+        </div>
+
+        <button class="button" onclick="showMain()">메인 페이지로</button>
+    </div>
+
+    <!-- 가을 페이지 -->
+    <div id="autumn" class="container autumn">
+        <h1>가을</h1>
+        <div id="autumn-flower-page"></div> <!-- 가을 꽃들이 표시될 곳 -->
+
+        <div class="page-buttons">
+            <button class="button" onclick="prevPage('autumn')">이전</button>
+            <button class="button" onclick="nextPage('autumn')">다음</button>
+        </div>
+
+        <button class="button" onclick="showMain()">메인 페이지로</button>
+    </div>
+
+    <!-- 겨울 페이지 -->
+    <div id="winter" class="container winter">
+        <h1>겨울</h1>
+        <div id="winter-flower-page"></div> <!-- 겨울 꽃들이 표시될 곳 -->
+
+        <div class="page-buttons">
+            <button class="button" onclick="prevPage('winter')">이전</button>
+            <button class="button" onclick="nextPage('winter')">다음</button>
+        </div>
+
+        <button class="button" onclick="showMain()">메인 페이지로</button>
+    </div>
+
+    <!-- 이미지 확대창 (썸네일 클릭 시 크게 보기) -->
+    <div class="modal" id="modal" onclick="hideModal()">
+        <!-- 확대된 이미지와 꽃 이름을 표시하는 영역 -->
+        <div class="modal-content">
+            <img id="modal-img" src="" alt=""> <!-- 클릭된 꽃 이미지 표시 -->
+            <p id="modal-name"></p> <!-- 클릭된 꽃 이름 표시 -->
+        </div>
+    </div>
+</body>
+</html>
