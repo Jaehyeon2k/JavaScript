@@ -1,0 +1,196 @@
+/* 전체 스타일 설정 */
+   body {
+    font-family: Arial, sans-serif; /* 본문에 사용할 글꼴 지정 */
+    margin: 0; /* 페이지 외부 여백 제거 */
+    padding: 0; /* 내부 여백 제거 */
+    text-align: center; /* 전체 텍스트 가운데 정렬 */
+    min-height: 100vh; /* 세로 높이를 화면 전체 높이로 설정 */
+    height: auto; /* 내용에 따라 자동 높이 설정 */
+    overflow-x: hidden; /* 가로 스크롤 방지 */
+    overflow-y: auto;   /* 세로 스크롤 허용 */
+}
+
+h1 {
+    position: absolute; /* 상단에 고정 위치 */
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%); /* 가로 중앙 정렬 */
+    margin: 0;
+    padding: 10px 0;
+    width: 100%;
+    font-size: 2rem; /* 제목 글씨 크기 */
+    background-color: #f0f8ff; /* 연한 파란색 배경 */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+    z-index: 10; /* 다른 요소보다 위에 표시 */
+}
+
+.button {
+    margin: 10px;
+    padding: 12px 24px;
+    color: white;
+    background-color: #4CAF50; /* 기본 초록색 배경 */
+    border: none;
+    border-radius: 5px; /* 모서리 둥글게 */
+    font-size: 1rem;
+    cursor: pointer; /* 커서 모양 변경 */
+    transition: background-color 0.3s ease; /* 마우스 오버 효과 부드럽게 */
+}
+
+.button:hover {
+    background-color: #45a049; /* 마우스 오버 시 더 진한 초록 */
+}
+
+/* 메인 페이지 스타일 */
+#main {
+    display: flex;
+    min-height: 100vh; /* 화면을 꽉 채움 */
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; /* 세로로 요소 정렬 */
+    background-color: #f0f8ff; /* 배경색 */
+}
+
+
+/* 계절 페이지 스타일 */
+
+.container {
+    display: none; /* 기본적으로 숨김 */
+    width: 100vw; /* 전체 너비 사용 */
+    min-height: 100vh; /* 화면보다 작을 수 없도록 설정 */
+    align-items: center; /* 세로축 가운데 정렬 */
+    justify-content: center; /* 가로축 가운데 정렬 */
+    flex-direction: column; /* 요소들을 세로로 쌓음 */
+    padding-top: 60px; /* 제목과 거리 확보 */
+    animation: fadeIn 0.5s ease-in-out; /* 부드러운 등장 효과 */
+    overflow-y: auto; /* 내부 스크롤 허용 */
+    overflow-x: hidden; /* 가로 스크롤 방지 */
+}
+
+/* 계절별 배경색 설정 */
+body.spring  { background-color: #FFDEE9; }
+body.summer  { background-color: #FEFF9A; }
+body.autumn  { background-color: #FFD8B1; }
+body.winter  { background-color: #D8ECFF; }
+
+#spring-flower-page,
+#summer-flower-page,
+#autumn-flower-page,
+#winter-flower-page {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 가로로 5개씩 배치 */
+    gap: 20px; /* 이미지 간격 */
+    padding: 20px; /* 전체 여백 */
+    margin-top: 70px; /* 제목과 거리 */
+    place-items: center; /* 각 셀 가운데 정렬 */
+}
+
+/* 이미지 썸네일 스타일 */
+#spring-flower-page img,
+#summer-flower-page img,
+#autumn-flower-page img,
+#winter-flower-page img {
+    width: 100%;
+    max-width: 320px; /* 최대 가로 길이 */
+    height: auto; /* 비율 유지하며 자동 조정 */
+    aspect-ratio: 1 / 1; /* 정사각형 비율 유지 */
+    object-fit: cover; /* 이미지 비율 유지하면서 채우기 */
+    border-radius: 12px; /* 둥근 테두리 */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.15); /* 약한 그림자 */
+    cursor: pointer; /* 클릭 가능한 이미지로 표시 */
+    transition: transform 0.3s ease; /* 확대 효과 부드럽게 */
+}
+
+/* 마우스 오버 시 이미지 확대 효과 */
+#spring-flower-page img:hover,
+#summer-flower-page img:hover,
+#autumn-flower-page img:hover,
+#winter-flower-page img:hover {
+    transform: scale(1.1);
+}
+
+/* 페이지 전환 버튼 스타일 */
+.page-buttons {
+    margin: 20px; /* 상하 여백 */
+}
+
+.modal {
+    position: fixed; /* 화면 전체 덮기 */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7); /* 어두운 배경 */
+    display: none; /* 기본 숨김 */
+    align-items: center; /* 수직 정렬 */
+    justify-content: center; /* 수평 정렬 */
+    z-index: 1000; /* 맨 위에 보이도록 설정 */
+}
+
+.modal.active {
+    display: flex; /* 모달 활성화 시 표시 */
+    animation: fadeIn 0.3s ease-in-out; /* 부드러운 등장 효과 */
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 가운데 정렬 */
+}
+
+/* 확대 사진 */
+.modal img {
+    width: 500px;
+    height: 500px;
+    object-fit: cover; /* 이미지 꽉 채우기 */
+    max-width: 90%;
+    border-radius: 12px;
+    box-shadow: 0 0 15px #000;
+    animation: zoomIn 0.4s ease; /* 확대 애니메이션 */
+}
+
+/* 꽃 이름 */
+#modal-name {
+    margin-top: 10px;
+    font-size: 1.5rem;
+    color: white;
+    text-shadow: 1px 1px 4px black; /* 텍스트 테두리 효과 */
+}
+
+/* 화면 크기에 따라 보이는 이미지 */
+@media screen and (max-width: 1200px) {
+    #spring-flower-page,
+    #summer-flower-page,
+    #autumn-flower-page,
+    #winter-flower-page {
+        grid-template-columns: repeat(3, 1fr); /* 가로 3개 */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #spring-flower-page,
+    #summer-flower-page,
+    #autumn-flower-page,
+    #winter-flower-page {
+        grid-template-columns: repeat(2, 1fr); /* 가로 2개 */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #spring-flower-page,
+    #summer-flower-page,
+    #autumn-flower-page,
+    #winter-flower-page {
+        grid-template-columns: 1fr; /* 한 줄에 하나 */
+    }
+}
+
+/* 에니메이션 효과 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
