@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>범위 기반 로또 번호 생성기</title>
+    <style>
+      /* 전체 페이지 설정 */
+      body {
+        background: linear-gradient(to right, #e1f5fe, #ede7f6);
+        margin: 0; /* 브라우저 기본 여백 제거*/
+        padding: 40px 20px; /* 상단과 하단 40px, 좌우 20px 패딩(띄움) */
+        display: flex; /* body안의 직계 자식 요소들의 정렬 방식을 가로로 정렬  */
+        flex-direction: column; /* 요소들을 세로로 정렬 */
+        align-items: center; /* 가운데로 정렬 */
+      }
+
+      h2 {
+        color: #4a148c; /* 제목 텍스트 색상을 진한 보라색으로 설정 */
+        margin-bottom: 30px; /* 제목 아래에 30px 여백을 줘서 다음 요소와 간격 확보 */
+        font-size: 28px; /* 글자 크기를 크게 설정 */
+      }
+
+      /* 입력 라벨 및 입력창 */
+      label {
+        display: inline-block; /* 라벨이 한 줄에 표시되면서도 너비와 여백 조절 가능하도록 설정 */
+        margin: 10px 15px; /* 라벨 주변에 상하 10px, 좌우 15px 여백 부여 */
+        font-weight: bold; /* 글자를 굵게 설정 */
+        /* color: #333;  색깔을 어두운 회색 */
+      }
+
+      input {
+        padding: 10px; /* 입력창 안쪽 여백 공간 텍스트가 너무 테두리에 붙지 않게 */
+        font-size: 16px; /* 입력 텍스트 크기 */
+        width: 100px; /* 너비 설정 */
+        border: 1px solid #ccc; /* 테두리를 연한 회색으로 설정 */
+        border-radius: 8px; /* 모서리를 둥글게 만듬 */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* 박스에 그림자 추가함 */
+      }
+
+      button {
+        margin-top: 20px; /* 버튼 위에 여백 줘서 입력 필드와 간격 유지 */
+        padding: 12px 24px; /* 위아래 12px, 좌우 24px 여백으로 클릭 영역 간격 확장 */
+        font-size: 16px; /* 버튼 안의 글씨 크기 */
+        background-color: #7b1fa2; /* 보라색 배경 */
+        color: white; /* 텍스트색 흰색으로 지정 */
+        border: none; /* 기본 테두리 제거 */
+        border-radius: 10px; /* 둥근 모서리 */
+        cursor: pointer; /* 마우스를 올리면 손가락 모양으로 바뀜 */
+        transition: background-color 0.3s, transform 0.2s;
+        /* 배경색과 크기가 부드럽게 바뀌게 하는 효과 (애니메이션) */
+      }
+
+      button:hover {
+        background-color: #6a1b9a; /* 배경색을 어두운 보라색으로 변경 */
+        transform: scale(1.05); /* 조금 더 커지는 효과 */
+      }
+
+      .set {
+        background: #fff; /* 배경색 흰색으로 지정 */
+        border-radius: 16px; /* 모서리 둥글게 지정 */
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+        padding: 25px 30px; /* 안쪽 여백 확보*/
+        margin-top: 30px; /* 출력 세트 간 간격 확보 */
+        width: fit-content; /* 너비 자동 조절되게 함 */
+        max-width: 480px; /* 최대 너비 제한 */
+        display: flex; /* 세로로 쌓을 수 있도록 flex효과 추가 */
+        flex-direction: column; /* 세로로 정렬 되도록 함 (위에서 아래로 요소 쌓이도록)*/
+        align-items: center; /* 세트 안의 공(숫자)들이 중앙 정렬되도록 함 */
+      }
+
+      .set-label {
+        font-weight: bold; /* 굵은 글씨 */
+        font-size: 20px; /* 글자 크기 지정 */
+        color: #512da8; /* 색을 보라색으로 지정 */
+        margin-bottom: 15px; /* 아래 공들과의 간격 지정*/
+      }
+
+      /* 공을 담는 컨테이너 */
+      .ball-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-top: 10px;
+        max-width: 100%;
+        margin: 0 auto;
+      }
+
+      /* 공 기본 스타일 */
+      .ball {
+        width: 54px; /* 너비 지정 */
+        height: 54px; /* 높이 지정 */
+        line-height: 54px; /* 텍스트를 수직 가운데 정렬 */
+        text-align: center; /* 텍스트 수평 가운데 정렬 */
+        border-radius: 50%; /* 원 모양으로 지정 */
+        font-weight: bold; /* 글꼴 두께 두껍게 지정*/
+        font-size: 18px; /*글자 크기 */
+        color: white; /* 글자는 흰색 */
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* 볼 바깥쪽 그림자 지정 */
+      }
+
+      /* 짝수값을 파랑색으로 출력하게 함 */
+      .ball[data-even="true"] {
+        background-color: #1976d2;
+      }
+
+      /* 홀수값을 주황색으로 출력하게 함 */
+      .ball[data-even="false"] {
+        background-color: #f57c00;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>범위 기반 로또 번호 생성기</h2>
+
+    <label
+      >최솟값: <input type="number" id="min" value="1" min="1" max="50"
+    /></label>
+    <label
+      >최댓값: <input type="number" id="max" value="50" min="1" max="50"
+    /></label>
+    <br />
+    <label
+      >한 세트당 출력 개수 (3~7):
+      <input type="number" id="count" value="6" min="3" max="7"
+    /></label>
+    <label
+      >출력할 세트 수 (1~10):
+      <input type="number" id="setCount" value="1" min="1" max="10"
+    /></label>
+    <br />
+    <button onclick="generate()">번호 생성</button>
+
+    <div id="result"></div>
+
+    <script>
+      const getRandomSet = (min, max, count) => {
+        const numbers = new Set(); // Set은 중복을 자동으로 제거하는 자료구조 (배열과 다름)
+
+        // 원하는 개수만큼 숫자가 모일 때까지 반복
+        while (numbers.size < count) {
+          // min 이상 max 이하의 랜덤 정수 생성
+          const n = Math.floor(Math.random() * (max - min + 1)) + min;
+          numbers.add(n); // 중복이 자동 제거되므로 add만 해도 중복 문제 없음
+        }
+
+        // Set(numbers)을 배열로 변환 후 오름차순 정렬해서 반환
+        return [...numbers].sort((a, b) => a - b);
+      };
+
+      const generate = () => {
+        // 사용자가 입력한 값들을 가져와 숫자로 변환
+        const min = parseInt(document.getElementById("min").value); // 최소값
+        const max = parseInt(document.getElementById("max").value); // 최대값
+        const count = parseInt(document.getElementById("count").value); // 한 세트당 숫자 개수
+        const setCount = parseInt(document.getElementById("setCount").value); // 세트 수
+
+        // 결과를 출력할 영역 가져오기
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = ""; // 이전 결과 지우기 (초기화)
+
+        // 설정한 값이 잘못된 값이면 경고 메시지 출력하고 종료
+        if (
+          isNaN(min) || 
+          isNaN(max) ||
+          isNaN(count) ||
+          isNaN(setCount) || // min,max,count,setCount는 숫자가 아닌 값이면 안 됨
+          min < 1 || // 최소값은 1 이상이어야 함
+          max > 50 || // 최대값은 50을 넘으면 안 됨
+          min >= max || // 최소값이 최대값보다 크거나 같으면 안 됨
+          count < 3 ||
+          count > 7 || // 한 세트에 뽑을 숫자 개수는 3~7 사이
+          max - min + 1 < count || // 범위 내에 뽑을 수 있는 숫자가 부족하면 안 됨
+          setCount < 1 ||
+          setCount > 10 // 세트 수는 1~10만 허용
+        ) {// 잘못된 값이 입력되면(if 조건이 맞으면) 경고 메세지 출력
+          resultDiv.textContent =
+            "⚠️ 유효한 값을 입력하세요 (범위: 1~50, 출력 개수: 3~7, 세트 수: 1~10, 범위 차이 ≥ 개수)";
+          return; // 여기서 함수 종료
+        }
+
+        // 세트 수만큼 반복하여 로또 번호 세트 생성 및 출력
+        for (let i = 0; i < setCount; i++) {
+          const set = getRandomSet(min, max, count); // 랜덤 숫자 배열 얻기
+
+          // 각각의 세트를 나타내는 div 생성
+          const setDiv = document.createElement("div");
+          setDiv.className = "set"; // CSS에서 스타일 지정된 클래스
+
+          // 세트 라벨 (Set 1, Set 2 등등) 생성
+          const label = document.createElement("div");
+          label.className = "set-label";
+          label.textContent = `Set ${i + 1}`;
+          setDiv.appendChild(label); // 라벨을 세트 상자 안에 추가
+
+          // 번호 공들을 담을 div 생성
+          const ballContainer = document.createElement("div");
+          ballContainer.className = "ball-container";
+
+          // 각 숫자를 하나씩 돌면서 공(ball)을 만들고 표시
+          set.forEach((num) => {
+            const ball = document.createElement("div");
+            ball.className = "ball"; // 공에 해당하는 클래스 지정 (원 모양, 배경색 등 적용됨)
+            ball.textContent = num; // 공 안에 숫자 표시
+            ball.setAttribute("data-even", num % 2 === 0); // 짝수면 true, 홀수면 false로 지정하여 색 구분
+            ballContainer.appendChild(ball); // 공을 컨테이너에 추가
+          });
+
+          // 공 컨테이너를 세트 박스에 추가
+          setDiv.appendChild(ballContainer);
+
+          // 완성된 세트 박스를 결과 영역에 추가
+          resultDiv.appendChild(setDiv);
+        }
+      };
+    </script>
+  </body>
+</html>
