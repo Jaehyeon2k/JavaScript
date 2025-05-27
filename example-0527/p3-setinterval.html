@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>The Window Object</h1>
+<h2>The setInterval() and clearInterval() Methods</h2>
+
+<p id="demo"></p>
+
+<button id="btn" onclick="myStop()">Stop time</button>
+
+<script>
+var flag = 1; // 타이머 동작 상태, 0 > 스탑 상태, 1 > 동작 상태
+// var myInterval = setInterval(myTimer, 1000); // setInterval은 계속 출력됨
+var myInterval = setTimeout(myTimer, 1000);
+// setTimeout은 한번만 출력되므로 재귀함수처럼 사용
+
+function myTimer() {
+  const today = new Date();
+  const vote = new Date("2025.6.25");
+  let tt = today.getTime(); // 1970.1.1 이후의 밀리 초
+  let dt = vote.getTime();
+  let diff = vote.getTime() - today.getTime();
+  diff = Math.ceil(diff/(1000*60*60*24));
+  let y = today.getFullYear();
+  let m = today.getMonth() + 1; // 1~12
+  let d = today.getDate(); // 1~31
+  let day = today.getDay(); // 0 ~ 6
+  let h = today.getHours(); // 0~24
+  if ( h < 10 ) h = "0" + h
+  let min = today.getMinutes(); // 0~59
+  let s = today.getSeconds(); // 0~59
+  if(s < 10) s = "0" + s;
+  const dayNames = ["일", "월", "화", "수", "목", "금", "토"];
+  
+
+  let str1 = `${y}년 ${m}월 ${d}일 (${dayNames[day]}) <br>`;
+  let str2 = `${h} : ${min} : ${s}`;
+
+  document.getElementById("demo").innerHTML = diff + "<br>";
+  document.getElementById("demo").innerHTML += str1 + str2;
+  
+  myInterval = setInterval(myTimer, 1000);
+  // document.getElementById("demo").innerHTML = date.toLocaleString();
+}
+//date.tolocaleDateString() > 년.월.일.
+//date.tolocaleTimeString() > 시:분:초
+
+function myStop() {
+  if(flag == 1) {
+    clearInterval(myInterval);
+    flag = 0;
+    document.getElementById("btn").innerHTML = "Start Time";
+  } else {
+    myInterval = setInterval(myTimer, 1000);
+    flag = 1;
+    document.getElementById("btn").innerHTML = "Stop Time";
+  }
+}
+</script>
+
+</body>
+</html>
