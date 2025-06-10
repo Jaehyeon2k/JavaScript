@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>하이브리드 아날로그+디지털 시계</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(to bottom, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .clock-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .analog-clock {
+      position: relative;
+      width: 250px;
+      height: 250px;
+      border: 6px solid #ccc;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: inset 0 0 10px #aaa;
+    }
+
+    .hand {
+      position: absolute;
+      width: 50%;
+      height: 2px;
+      background: #333;
+      top: 50%;
+      transform-origin: 100%;
+      transform: rotate(90deg);
+    }
+
+    .hand.hour {
+      width: 35%;
+      height: 4px;
+      background: #444;
+    }
+
+    .hand.minute {
+      width: 45%;
+      height: 3px;
+      background: #666;
+    }
+
+    .hand.second {
+      background: red;
+      height: 2px;
+    }
+
+    .digital-clock {
+      margin-top: 30px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .digital-clock .date {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .digital-clock .time {
+      font-size: 36px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="clock-container">
+    <div class="analog-clock">
+      <div class="hand hour" id="hour"></div>
+      <div class="hand minute" id="minute"></div>
+      <div class="hand second" id="second"></div>
+    </div>
+    <div class="digital-clock">
+      <div class="date" id="date"></div>
+      <div class="time" id="time"></div>
+    </div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const sec = now.getSeconds();
+      const min = now.getMinutes();
+      const hr = now.getHours();
+
+      const secDeg = sec * 6;
+      const minDeg = min * 6 + sec * 0.1;
+      const hrDeg = (hr % 12) * 30 + min * 0.5;
+
+      document.getElementById('second').style.transform = `rotate(${secDeg}deg)`;
+      document.getElementById('minute').style.transform = `rotate(${minDeg}deg)`;
+      document.getElementById('hour').style.transform = `rotate(${hrDeg}deg)`;
+
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const weekday = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'][now.getDay()];
+      const hours = String(hr).padStart(2, '0');
+      const minutes = String(min).padStart(2, '0');
+      const seconds = String(sec).padStart(2, '0');
+
+      document.getElementById('date').textContent = `${year}년 ${month}월 ${day}일 ${weekday}`;
+      document.getElementById('time').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>

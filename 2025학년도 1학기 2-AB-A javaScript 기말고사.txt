@@ -1,0 +1,9 @@
+2025학년도 1학기 2-AB-A javaScript 기말고사 대비
+
+문제 1 : input 태그 다루기, text, radio, checkbox, select
+문제 2 : 계산기 만들기, 사칙연산 중심
+문제 3 : d-day,시계만들기, Date(), setTimeout(), setinterval()
+문제 4 : 윈도우 생성하기
+문제 5 : 객체 생성 및 활용, 기본함수(prompt,confirm, evant, alert 등), math, String 객체
+문제 6 : 랜덤 번호 생성 및 활용
+문제 7 : 다양한 애니메이션 적응하기

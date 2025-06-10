@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>로그온 페이지</title>
+    <style>
+      .w {
+        margin: 10px auto;
+        border: solid 2px black;
+        padding: 10px;
+        width: 160px;
+        text-align: center;
+        font-weight: bold;
+        color: blue;
+      }
+      #box {
+        margin: 10px auto;
+        border: solid 2px black;
+        padding: 10px;
+        width: 160px;
+      }
+      #box > div {
+        border: solid 2px black;
+        width: 160px;
+        text-align: center;
+      }
+      #msg {
+        border: solid 1px black;
+        color: red;
+        padding: 10px;
+        width: 160px;
+        margin: 20px auto;
+        font-weight: bold;
+        text-align: center;
+      }
+      #id,
+      #pass {
+        width: 150px;
+        height: 30px;
+        font-size: 18px;
+        margin: 3px;
+      }
+      #btn {
+        width: 150px;
+        height: 50px;
+        font-size: 30px;
+        background-color: greenyellow;
+        margin: 3px;
+        border-radius: 10px;
+        font-weight: bold;
+      }
+    </style>
+<script>
+    // 로그인 상태를 저장하는 변수 (처음엔 false = 로그인 안 함)
+    let isLoggedIn = false;
+  
+    // 웹페이지가 로드되면 실행되는 함수
+    const init = () => {
+      // 각 요소들을 가져옴 (HTML에서 id로 연결된 태그들)
+      const id = document.getElementById("id");       // 아이디 입력 칸
+      const pass = document.getElementById("pass");   // 비밀번호 입력 칸
+      const btn = document.getElementById("btn");     // 로그인 버튼
+      const msg = document.getElementById("msg");     // 메시지 출력할 박스
+      const box2 = document.getElementById("box2");   // 아이디/비번 입력칸이 담긴 박스
+      const box = document.getElementById("box");     // 전체 로그인 박스 (환영 메시지 삽입할 위치)
+  
+      // 로그인/로그아웃 버튼 클릭 시 실행되는 기능
+      btn.addEventListener("click", () => {
+        // 로그아웃 상태면 → 페이지 새로고침해서 초기화
+        if (isLoggedIn) {
+          location.reload(); // 새로고침
+          return;
+        }
+  
+        // 아이디 입력 안 했을 때
+        if (id.value.trim() === "") {
+          msg.innerHTML = "아이디 미 입력 ~~"; // 메세지 출력
+          return;
+        }
+  
+        // 비밀번호 입력 안 했을 때
+        if (pass.value.trim() === "") {
+          msg.innerHTML = "비밀번호 미 입력~~"; // 메세지 출력
+          return;
+        }
+  
+        // 비밀번호 길이가 짧을 때
+        if (pass.value.length < 4) {
+          msg.innerHTML = "비밀번호는 4자리 이상임~~";
+          return;
+        }
+  
+        // 아이디와 비밀번호가 둘 다 맞을 때 (로그인 성공!)
+        if (id.value === "test" && pass.value === "1234") {
+          msg.innerHTML = "Logon Success~~";     // 메세지 출력
+          btn.innerText = "Logout";              // 로그아웃으로 변경
+          isLoggedIn = true;                     // 로그인 상태로 변경
+  
+          box2.style.display = "none";           // 입력칸 박스를 화면에서 숨김
+  
+          // 환영 메시지를 만들어서 화면에 보여줌
+          const welcomeDiv = document.createElement("div");  // 새 div 생성
+          welcomeDiv.id = "welcome";                         // 아이디 설정 (스타일 줄 수 있음)
+          welcomeDiv.innerHTML = "김재현(test)님의<br>방문을 진심으로<br>환영합니다."; // 내용 입력
+          box.insertBefore(welcomeDiv, btn);     // 버튼 위에 새 메시지를 삽입
+        }
+  
+        // 아이디가 틀렸을 때
+        else if (id.value !== "test") {
+          msg.innerHTML = `아이디 오류~~(${id.value})`; // 입력한 아이디도 같이 보여줌
+        }
+  
+        // 아이디는 맞지만 비밀번호가 틀렸을 때
+        else if (pass.value !== "1234") {
+          msg.innerHTML = "비밀번호 오류~~";
+        }
+      });
+    };
+  
+    // 페이지가 완전히 열리면 init() 함수 실행
+    window.addEventListener("load", init);
+  </script>
+  
+  </head>
+  <body>
+    <div class="w">김재현 : 2101056</div>
+    <div id="box">
+      <div id="box2">
+        <input id="id" type="text" value="" placeholder="아이디 입력" /><br />
+        <input id="pass" type="password" value="" placeholder="비밀번호 입력" />
+      </div>
+      <button id="btn">Logon</button>
+    </div>
+    <div id="msg">메시지는 여기에...</div>
+
+    <br /><br />
+    <div id="job">
+      구현할내용 <br />
+      1. id, password 입력여부,비밀번호 길이(4자 이상) 검사 (상황에 맞는 문자를
+      문자 상자에 출력) 2. id, password 맞는지 검증(id:test, pwd:1234해)해서
+      로그온 처리...<br />
+      2. 로그온 성공시 처리<br />
+      3. Logout 버턴 클릭시 처리(초기 모습으로)<br />
+    </div>
+  </body>
+</html>

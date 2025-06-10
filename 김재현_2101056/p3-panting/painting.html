@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #box {
+        width: 510px;
+        border: solid 0px black;
+        margin: 10px auto;
+      }
+      #canvas {
+        width: 500px;
+        height: auto;
+        border: solid 1px black;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+      #pabox {
+        width: 500px;
+        height: 180px;
+        border: solid 1px black;
+        display: flex;
+        justify-content: center;
+        margin-top: 5px;
+      }
+      #pa1,
+      #pa2 {
+        width: 100px;
+        height: 100px;
+        border: solid 1px black;
+        border-radius: 50%;
+      }
+      .palette {
+        width: 110px;
+        height: 130px;
+        border: solid 1px black;
+        text-align: center;
+        padding: 10px;
+        margin: 10px;
+        border: solid 1px black;
+      }
+      #box input {
+        text-align: center;
+        width: 70%;
+      }
+      .b1 {
+        margin-bottom: 5px;
+        line-height: 100px;
+      }
+      .intro {
+        width: 150px;
+        height: 30px;
+        border: solid 1px black;
+        text-align: center;
+        line-height: 30px;
+        margin: 70px 5px;
+      }
+      #canvas > div {
+        width: 20px;
+        height: 20px;
+        border: solid 1px black;
+      }
+      #btn {
+        margin: 5px 210px;
+      }
+    </style>
+<script>
+    // 색칠할 때 사용할 색을 저장할 전역 변수
+    let color_g = "black"; // 기본값은 검정색
+  
+    // 웹페이지가 열릴 때 실행되는 함수
+    init = () => {
+      const count = 88; // 총 상자 개수 (가로세로 여러 줄로 배치할 예정)
+      const canvas = document.querySelector("#canvas"); // 상자들이 들어갈 부모 박스 선택
+  
+      //  상자들을 하나씩 만들어서 화면에 붙이기
+      for (let i = 0; i < count; i++) {
+        let box = document.createElement("div"); // 새 상자(div) 만들기
+        canvas.appendChild(box); // 만든 상자를 canvas 안에 추가하기
+  
+        // 상자를 클릭했을 때: 선택한 색으로 배경색을 칠함
+        box.addEventListener("click", function () {
+          this.style.backgroundColor = color_g;
+        });
+  
+        // 상자를 더블클릭했을 때: 다시 흰색으로 되돌리기
+        box.addEventListener("dblclick", function () {
+          this.style.backgroundColor = "white";
+        });
+      }
+  
+      //  Palette1 (왼쪽)
+      const palette1 = document.querySelector("#palette1"); // Palette1 박스
+      const color1 = document.querySelector("#color1");     // Palette1의 색상 선택 도구
+  
+      // 색상 선택기에서 색을 바꿨을 때: 배경색도 같이 바뀜
+      color1.addEventListener("input", function () {
+        palette1.style.backgroundColor = this.value; // 선택한 색으로 palette 배경 바꾸기
+      });
+  
+      // palette1을 클릭하면 → 선택한 색을 저장해두기
+      palette1.addEventListener("click", function () {
+        color_g = color1.value; // 현재 선택한 색을 전역변수 color_g에 저장
+      });
+  
+      //  Palette2 (오른쪽)
+      const palette2 = document.querySelector("#palette2"); // Palette2 박스
+      const color2 = document.querySelector("#color2");     // Palette2의 색상 선택 도구
+  
+      // 색상 선택기에서 색을 바꿨을 때: 배경색도 같이 바뀜
+      color2.addEventListener("input", function () {
+        palette2.style.backgroundColor = this.value; // 선택한 색으로 palette 배경 바꾸기
+      });
+  
+      // palette2를 클릭하면 → 선택한 색을 저장해두기
+      palette2.addEventListener("click", function () {
+        color_g = color2.value; // 현재 선택한 색을 전역변수 color_g에 저장
+      });
+  
+      //  전체 초기화 버튼 (처음 상태로 다시 돌림)
+      const btn = document.querySelector("#btn"); // 초기화 버튼 가져오기
+  
+      btn.addEventListener("click", function () {
+        // 페이지를 새로고침해서 처음 상태로 되돌림
+        location.reload(); // 현재 문서를 다시 로드
+      });
+    };
+  
+    // 페이지가 완전히 열리면 init() 함수 실행
+    window.addEventListener("load", init);
+  </script>
+  
+  </head>
+  <body>
+    <div id="box">
+      <!-- 전체 박스스-->
+      <div id="canvas">
+        <!-- 상단 색칠할 영역-->
+        <!-- 여기에 javascript로 태그 생성-->
+      </div>
+      <div id="pabox">
+        <!-- 2개의 팔레트-->
+        <div class="intro">김재현</div>
+        <!-- 본인 이름 작성-->
+        <div class="palette">
+          <div id="palette1" class="b1">Palette1</div>
+          <!-- Palette1 영역-->
+          <div>
+            <input id="color1" type="color" />
+            <!-- Palette1의 배경으로 지정할 색 선택 -->
+          </div>
+        </div>
+        <div class="palette">
+          <div id="palette2" class="b1">Palette2</div>
+          <!-- Palette2 영역-->
+          <div>
+            <input id="color2" type="color" />
+            <!-- Palette2의 배경으로 지정할 색 선택 -->
+          </div>
+        </div>
+        <div class="intro">2101056</div>
+        <!-- 본인 학번 작성-->
+      </div>
+      <button id="btn">전체 초기화</button>
+      <!-- 현재 문서를 다시 실행( location.href="현재문서이름")-->
+    </div>
+    <br /><br />
+    <div id="job">
+      구현할내용 <br />
+      1. 색상 파커로 팔레트(Palette1,Palette2) 배경색 설정...<br />
+      2. 팔레트 클릭후 상단 박스 클릭하면 상자 배경색 변경<br />
+      3. 상단 상자 더블클릭하면 해당 상자 배경색을 "white"로 변경<br />
+      4. "전체초기화 버턴을 누르면 초기모습으로 전환<br />
+      5. 팔레트 좌 우측 인적사항 작성
+    </div>
+  </body>
+</html>

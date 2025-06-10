@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width>, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #box {
+        width: 400px;
+        border: solid 1px black;
+      }
+      .me {
+        display: flex;
+        justify-content: center;
+        border: solid 1px black;
+      }
+      .pic {
+        border: solid 1px black;
+        width: 50%;
+        height: 155px;
+      }
+      .name {
+        border: solid 1px black;
+        width: 50%;
+        display: grid;
+      }
+      .name > div {
+        border: solid 1px black;
+        width: 100%;
+        line-height: 50px;
+        text-align: center;
+        font-size: 20px;
+      }
+      .intro {
+        border: solid 1px black;
+        width: 100%;
+        text-align: center;
+        font-size: 22px;
+        padding: 5px 0;
+        background-color: bisque;
+      }
+      #motto {
+        border: solid 1px black;
+        width: 100%;
+        text-align: center;
+        font-size: 25px;
+        padding: 10px 0px;
+        font-weight: bold;
+      }
+      #hobby {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        border: solid 1px black;
+      }
+      #hobby > div {
+        border: solid 1px blue;
+        margin: 5px;
+        font-size: 20px;
+      }
+      .job {
+        border: solid 1px black;
+        width: 100%;
+        text-align: center;
+        font-size: 20px;
+        padding: 10px 0px;
+      }
+      .fsize {
+        font-size: 20px;
+      }
+      #fc {
+        width: 90px;
+        height: 30px;
+      }
+      .pic > img {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  <script>
+    // 페이지가 열리면 실행됨
+    const init = () => {
+      // HTML 요소들을 변수에 저장해두기 (id로 연결)
+      const hobbyBox = document.getElementById("hobby");     // 취미들이 쌓일 박스 (결과 보여주는 곳)
+      const hobbyInput = document.getElementById("hv");      // 사용자가 취미 입력하는 칸
+      const addHobbyBtn = document.getElementById("hbtn");   // "추가" 버튼
+      const colorPicker = document.getElementById("fc");     // 글자 색을 고를 수 있는 색상 선택 도구
+      const motto = document.getElementById("motto");        // 좌우명 텍스트 (색상을 바꿀 대상)
+  
+      // "취미 추가" 버튼을 눌렀을 때 실행할 동작
+      addHobbyBtn.addEventListener("click", () => {
+        const hobby = hobbyInput.value.trim(); // 입력값에서 앞뒤 공백 제거해서 변수에 저장
+  
+        // 입력한 값이 비어 있지 않으면
+        if (hobby !== "") {
+          let str = `<div>${hobby}</div>`; // 새로운 <div>에 입력한 취미를 넣어서 만들기
+          hobbyBox.insertAdjacentHTML("beforeend", str); // hobbyBox 안에 추가하기
+        }
+      });
+  
+      // 좌우명 텍스트 색상 바꾸기
+      colorPicker.addEventListener("input", () => {
+        // 선택한 색상 값을 가져와서 motto(좌우명)의 글자 색으로 적용
+        motto.style.color = colorPicker.value;
+      });
+    };
+  
+    // 페이지가 완전히 열린 후 init() 함수 실행
+    window.addEventListener("load", init);
+  </script>
+  
+  </head>
+  <body>
+    <div id="box">
+      <div class="intro">자기소개</div>
+
+      <div class="me">
+        <!--본인 소개 박스 -->
+        <div class="pic"><img src="jaehyeon.jpg" /></div>
+        <!--본인 사진 파일  -->
+        <div class="name">
+          <div>김재현   </div>
+          <!--본인 이름 작성 -->
+          <div>2101056</div>
+          <!--본인 학번 작성 -->
+          <div>2-AB-A</div>
+        </div>
+      </div>
+
+      <div id="motto">No pain No gain<div class=""></div></div>
+      <!--좌우명 -->
+      <div id="hobby"><div>취미</div></div>
+      <!--취미가 추가될 상자 -->
+      <div class="job">
+        <input
+          id="hv"
+          class="fsize"
+          type="text"
+          size="10"
+          value=""
+        /><!--추가할 취미 내용-->
+        <button id="hbtn" class="fsize">취미 추가하기</button><br /><br />
+        <!--취미 추가 버턴 -->
+        <input
+          id="fc"
+          class="fsize"
+          type="color"
+        /><br /><!--좌우명에 적용할 색상 선택 -->
+        <span>좌우명 글자색 변경하기(색상 상자 선택)</span
+        ><!--좌우명 색상 변경 버턴 -->
+      </div>
+    </div>
+
+    <br /><br />
+    <div id="job">
+      구현할내용 <br />
+      1. 본인의 인적사헝 작성<br />
+      2. 본인 사진 보여 주기<br />
+      3. 취미추가하기 버턴으로 좌측 input태그에 있는 취미를 div태그에 넣어서
+      "#hobby" 태그에 추가하기<br />
+      4. 색상 파카를 이용해서 좌우명의 글자색을 변경('input' 이벤트 사용)<br />
+    </div>
+  </body>
+</html>

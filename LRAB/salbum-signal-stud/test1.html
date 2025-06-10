@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>썸네일 페이지</title>
+  <style>
+    #bigImage {
+      border: solid 1px black;
+      width: 540px;
+      height: 300px;
+    }
+    #bigImage img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    #sbox {
+      border: solid 1px black;
+      width: 540px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    #sbox img {
+      width: 70px;
+      height: 50px;
+      margin: 2px 1px;
+      cursor: pointer;
+    }
+    #controls {
+      margin-top: 10px;
+      text-align: center;
+    }
+    button {
+      padding: 5px 15px;
+      margin: 0 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <!-- 큰 이미지 영역 -->
+  <div id="bigImage">
+    <img src="" alt="큰 이미지" />
+  </div>
+
+  <!-- 썸네일 이미지 영역 (자바스크립트로 생성됨) -->
+  <div id="sbox"></div>
+
+  <!-- 페이지 넘김 버튼 -->
+  <div id="controls">
+    <button onclick="prevPage()">이전</button>
+    <button onclick="nextPage()">다음</button>
+  </div>
+
+  <script>
+    // 큰 이미지 보여주는 부분 가져오기
+    const bigImage = document.querySelector("#bigImage img");
+  
+    // 썸네일이 들어갈 공간 가져오기
+    const sbox = document.getElementById("sbox");
+  
+    // 이미지 파일 이름들 (작은 이미지와 큰 이미지 공통으로 씀)
+    const imageFiles = ["pic1.png", "pic2.png", "pic3.png", "pic4.png", "pic5.png", "pic6.png", "pic7.png"];
+  
+    // 이미지들이 저장된 폴더들
+    const thumbFolders = ["images2/images1/thumb", "images2/images2/thumb"];
+    const bigImageFolders = ["images2/images1", "images2/images2"];
+  
+    // 현재 페이지 번호 (0번부터 시작)
+    let currentPage = 0;
+  
+    // 썸네일을 화면에 표시하는 함수
+    function showThumbnails() {
+      // 썸네일 공간 비우기
+      sbox.innerHTML = "";
+  
+      // 현재 페이지에 해당하는 폴더 경로 저장
+      const thumbPath = thumbFolders[currentPage];
+      const bigPath = bigImageFolders[currentPage];
+  
+      // 이미지 파일 하나씩 꺼내서 썸네일 만들기
+      for (let i = 0; i < imageFiles.length; i++) {
+        let filename = imageFiles[i];
+  
+        // <img> 태그 만들기
+        let thumb = document.createElement("img");
+  
+        // 썸네일 경로 설정
+        thumb.src = `${thumbPath}/${filename}`;
+        thumb.alt = `썸네일 ${i + 1}`;
+  
+        // 클릭하면 큰 이미지 바꾸기
+        thumb.onclick = function () {
+          bigImage.src = `${bigPath}/${filename}`;
+        };
+  
+        // 썸네일 박스에 넣기
+        sbox.appendChild(thumb);
+      }
+  
+      // 큰 이미지도 첫 번째로 바꿔줌
+      bigImage.src = `${bigPath}/${imageFiles[0]}`;
+    }
+  
+    // 이전 버튼 누르면 실행되는 함수
+    function prevPage() {
+      if (currentPage > 0) {
+        currentPage--;
+        showThumbnails();
+      }
+    }
+  
+    // 다음 버튼 누르면 실행되는 함수
+    function nextPage() {
+      if (currentPage < thumbFolders.length - 1) {
+        currentPage++;
+        showThumbnails();
+      }
+    }
+  
+    // 페이지가 처음 로드될 때 실행되는 부분
+    window.onload = function () {
+      showThumbnails(); // 처음 페이지 썸네일 보여주기
+    };
+  </script>
+  
+</body>
+</html>

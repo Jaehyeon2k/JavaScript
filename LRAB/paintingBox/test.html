@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>썸네일 페이지</title>
+  <style>
+    #bigImage {
+      border: solid 1px black;
+      width: 540px;
+      height: 300px;
+    }
+    #bigImage img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    #sbox {
+      border: solid 1px black;
+      width: 540px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    #sbox img {
+      width: 70px;
+      height: 50px;
+      margin: 2px 1px;
+      cursor: pointer;
+    }
+    #controls {
+      margin-top: 10px;
+      text-align: center;
+    }
+    button {
+      padding: 5px 15px;
+      margin: 0 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div id="bigImage">
+    <img src="" alt="큰 이미지" />
+  </div>
+
+  <div id="sbox">
+    <img src="" />
+    <img src="" />
+    <img src="" />
+    <img src="" />
+    <img src="" />
+    <img src="" />
+    <img src="" />
+  </div>
+
+  <div id="controls">
+    <button onclick="prevPage()">이전</button>
+    <button onclick="nextPage()">다음</button>
+  </div>
+
+  <script>
+    const bigImage = document.querySelector("#bigImage > img");
+    const thumbs = document.querySelectorAll("#sbox > img");
+
+    // 경로만 다르고 파일명은 동일함
+    const thumbPaths = [
+      "images2/images1/thumb",
+      "images2/images2/thumb"
+    ];
+
+    const bigImagePaths = [
+      "images2/images1",
+      "images2/images2"
+    ];
+
+    const fileNames = ['pic1.png','pic2.png','pic3.png','pic4.png','pic5.png','pic6.png','pic7.png'];
+
+    const thumbsPerPage = 7;
+    let currentPage = 0;
+
+    const showPage = (page) => {
+      const thumbFolder = thumbPaths[page];
+      const bigImgFolder = bigImagePaths[page];
+
+      for (let i = 0; i < thumbsPerPage; i++) {
+        const file = fileNames[i]; // 이름은 동일하니까 index로 씀
+
+        if (file) {
+          thumbs[i].src = `${thumbFolder}/${file}`;
+          thumbs[i].style.display = "inline";
+
+          // 클릭 시 해당 경로의 큰 이미지 표시
+          thumbs[i].onclick = () => {
+            bigImage.src = `${bigImgFolder}/${file}`;
+          };
+        } else {
+          thumbs[i].src = "";
+          thumbs[i].style.display = "none";
+        }
+      }
+    };
+
+    const prevPage = () => {
+      if (currentPage > 0) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    };
+
+    const nextPage = () => {
+      if (currentPage < thumbPaths.length - 1) {
+        currentPage++;
+        showPage(currentPage);
+      }
+    };
+
+    window.onload = () => {
+      showPage(currentPage);
+      bigImage.src = `${bigImagePaths[0]}/${fileNames[0]}`;
+    };
+  </script>
+</body>
+</html>
